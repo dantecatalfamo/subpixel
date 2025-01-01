@@ -121,10 +121,10 @@ func expandPixels(inImage image.Image) image.Image {
 	inImgWidth := inImage.Bounds().Dx()
 	for y := 0; y < inImgHeight; y += 1 {
 		for x := 0; x < inImgWidth; x += 1 {
-			r, g, b, a := inImage.At(x, y).RGBA()
-			outImage.Set(x*3, y, color.RGBA{R: uint8(r), A: uint8(a)})
-			outImage.Set(x*3+1, y, color.RGBA{G: uint8(g), A: uint8(a)})
-			outImage.Set(x*3+2, y, color.RGBA{B: uint8(b), A: uint8(a)})
+			r, g, b, _ := inImage.At(x, y).RGBA()
+			outImage.Set(x*3, y, color.RGBA{R: uint8(r), A: 255})
+			outImage.Set(x*3+1, y, color.RGBA{G: uint8(g), A: 255})
+			outImage.Set(x*3+2, y, color.RGBA{B: uint8(b), A: 255})
 		}
 	}
 
