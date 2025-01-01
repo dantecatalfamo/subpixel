@@ -10,8 +10,8 @@ import (
 )
 
 func main() {
-	inPath := flag.String("in", "", "input PNG")
-	outPath := flag.String("out", "", "output PNG")
+	inPath := flag.String("i", "", "input PNG")
+	outPath := flag.String("o", "", "output PNG")
 	reverse := flag.Bool("r", false, "reverse process")
 	expand := flag.Bool("e", false, "expand each pixel to three full color pixels")
 	flag.Parse()
