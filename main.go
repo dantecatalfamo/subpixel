@@ -56,11 +56,11 @@ func main() {
 			outR, outG, outB, _ := outImage.At(outPx, y).RGBA()
 			outPxColor := color.RGBA{R: uint8(outR), G: uint8(outG), B: uint8(outB), A: 255}
 			switch outSubPx {
-			case 1:
+			case 0:
 				outPxColor.R = lum
-			case 2:
+			case 1:
 				outPxColor.G = lum
-			case 3:
+			case 2:
 				outPxColor.B = lum
 			}
 			outImage.Set(outPx, y, outPxColor)
