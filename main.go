@@ -12,8 +12,8 @@ import (
 )
 
 func main() {
-	inPath := flag.String("i", "", "input PNG")
-	outPath := flag.String("o", "", "output PNG")
+	inPath := flag.String("i", "", "input png")
+	outPath := flag.String("o", "", "output png")
 	reverse := flag.Bool("r", false, "reverse process")
 	expand := flag.Bool("e", false, "expand each pixel to three full color pixels")
 	aspect := flag.Bool("a", false, "maintain aspect ratio when converting, makes the image 1/3 as tall when shrinking and 3x taller when reversing")
