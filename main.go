@@ -77,7 +77,8 @@ func fullToSubpixel(inImage image.Image) image.Image {
 			outSubPx := x % 3
 			inPx := inImage.At(x, y)
 			r, g, b, _ := inPx.RGBA()
-			lum := uint8((0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)) / 256)
+			// https://en.wikipedia.org/wiki/Luma_(video)#Rec._601_luma_versus_Rec._709_luma_coefficients
+			lum := uint8((0.2126*float64(r) + 0.7152*float64(g) + 0.0722*float64(b)) / 256)
 			outR, outG, outB, _ := outImage.At(outPx, y).RGBA()
 			outPxColor := color.RGBA{R: uint8(outR), G: uint8(outG), B: uint8(outB), A: 255}
 			switch outSubPx {
