@@ -6,7 +6,9 @@ Aspect ratio can be maintained using the `-a` flag, but it reduces the images he
 
 ## Why?
 
-I thought it would be interesting
+I thought it would be interesting.
+
+Inspired by https://www.youtube.com/watch?v=SlS3FOmKUbE
 
 ## Usage
 
