@@ -18,6 +18,12 @@ Usage of ./subpixel:
   -r    reverse process
 ```
 
+## Building
+
+```
+go build
+```
+
 ## Example
 
 ### Reduce width to subpixel rendering
