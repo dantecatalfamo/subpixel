@@ -33,16 +33,16 @@ func main() {
 		log.Fatalf("failed to open file %s: %s", *inPath, err)
 	}
 
+	inImage, err := png.Decode(inFile)
+	if err != nil {
+		log.Fatalf("failed to decode png: %s", err)
+	}
+
 	outFile, err := os.Create(*outPath)
 	if err != nil {
 		log.Fatalf("failed to create output file: %s: %s", *outPath, err)
 	}
 	_ = outFile
-
-	inImage, err := png.Decode(inFile)
-	if err != nil {
-		log.Fatalf("failed to decode png: %s", err)
-	}
 
 	var outImage image.Image
 
