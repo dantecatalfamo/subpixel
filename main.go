@@ -2,11 +2,13 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"image"
 	"image/color"
 	"image/png"
-	"log"
 	"os"
+
+	"golang.org/x/image/draw"
 )
 
 func main() {
@@ -14,33 +16,46 @@ func main() {
 	outPath := flag.String("o", "", "output PNG")
 	reverse := flag.Bool("r", false, "reverse process")
 	expand := flag.Bool("e", false, "expand each pixel to three full color pixels")
+	aspect := flag.Bool("a", false, "maintain aspect ratio when converting, makes the image 1/3 as tall when shrinking and 3x taller when reversing")
 	flag.Parse()
 
 	if *inPath == "" {
-		log.Fatal("no input file provided")
+		fmt.Fprintln(os.Stderr, "no input file provided")
+		os.Exit(1)
 	}
 
 	if *outPath == "" {
-		log.Fatal("no output file provided")
+		fmt.Fprintln(os.Stderr, "no output file provided")
+		os.Exit(1)
 	}
 
 	if *reverse && *expand {
-		log.Fatal("cannot use reverse and expand at the same time")
+		fmt.Fprintln(os.Stderr, "cannot use reverse and expand at the same time")
+		os.Exit(1)
 	}
 
 	inFile, err := os.Open(*inPath)
 	if err != nil {
-		log.Fatalf("failed to open file %s: %s", *inPath, err)
+		fmt.Fprintf(os.Stderr, "failed to open file %s: %s\n", *inPath, err)
+		os.Exit(1)
 	}
 
 	inImage, err := png.Decode(inFile)
 	if err != nil {
-		log.Fatalf("failed to decode png: %s", err)
+		fmt.Fprintf(os.Stderr, "failed to decode png: %s\n", err)
+		os.Exit(1)
+	}
+
+	if *aspect && !*reverse && !*expand {
+		scaledImage := image.NewRGBA(image.Rect(0, 0, inImage.Bounds().Dx(), inImage.Bounds().Dy()/3))
+		draw.BiLinear.Scale(scaledImage, scaledImage.Bounds(), inImage, inImage.Bounds(), draw.Over, nil)
+		inImage = scaledImage
 	}
 
 	outFile, err := os.Create(*outPath)
 	if err != nil {
-		log.Fatalf("failed to create output file: %s: %s", *outPath, err)
+		fmt.Fprintf(os.Stderr, "failed to create output file: %s: %s\n", *outPath, err)
+		os.Exit(1)
 	}
 	_ = outFile
 
@@ -54,12 +69,16 @@ func main() {
 		outImage = fullToSubpixel(inImage)
 	}
 
-	err = png.Encode(outFile, outImage)
-	if err != nil {
-		log.Fatalf("failed to write png: %s", err)
+	if *aspect && (*reverse || *expand) {
+		scaledImage := image.NewRGBA(image.Rect(0, 0, outImage.Bounds().Dx(), outImage.Bounds().Dy()*3))
+		draw.BiLinear.Scale(scaledImage, scaledImage.Bounds(), outImage, outImage.Bounds(), draw.Over, nil)
+		outImage = scaledImage
 	}
 
-	log.Print("done")
+	if err := png.Encode(outFile, outImage); err != nil {
+		fmt.Fprintf(os.Stderr, "failed to write png: %s\n", err)
+		os.Exit(1)
+	}
 }
 
 func fullToSubpixel(inImage image.Image) image.Image {
