@@ -2,6 +2,8 @@
 
 Replace each horizontal pixal in an image with an RGB sub-pixel. Reduces the width of an image to one third of its original width. Converts an image to grayscale before scaling.
 
+If you want the image to maintain the same aspect ratio after conversion, resize the image to be 66% shorter while maintaining the same width before converting it.
+
 ## Why?
 
 I thought it would be interesting
