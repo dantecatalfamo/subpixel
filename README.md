@@ -2,7 +2,7 @@
 
 Replace each horizontal pixal in an image with an RGB sub-pixel. Reduces the width of an image to one third of its original width. Converts an image to grayscale before scaling.
 
-If you want the image to maintain the same aspect ratio after conversion, resize the image to be 33% its original height while maintaining the same width before converting it.
+Aspect ratio can be maintained using the `-a` flag, but it reduces the images height to 1/3 its original height when converting to subpixel to match the new width, and stretches the image's height 3x when converting back to full size grayscale or expanded pixel format.
 
 ## Why?
 
