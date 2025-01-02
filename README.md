@@ -11,7 +11,8 @@ I thought it would be interesting
 ## Usage
 
 ```
-Usage of ./subpixel:
+Usage of subpixel:
+  -a    maintain aspect ratio when converting, makes the image 1/3 as tall when shrinking and 3x taller when reversing
   -e    expand each pixel to three full color pixels
   -i string
         input PNG
